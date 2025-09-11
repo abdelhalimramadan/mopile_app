@@ -1,0 +1,15 @@
+{
+  "@@locale": "en",
+  "appTitle": "Quit Smoking App",
+  "dashboard": "Dashboard",
+  "aiAssistant": "AI Assistant",
+  "notes": "Notes",
+  "progress": "Progress",
+  "settings": "Settings",
+  "language": "Language",
+  "english": "English",
+  "arabic": "العربية",
+  "selectLanguage": "Select Language",
+  "save": "Save",
+  "cancel": "Cancel"
+}

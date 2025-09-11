@@ -1,0 +1,16 @@
+{
+  "@@locale": "ar",
+  "@@text_direction": "rtl",
+  "appTitle": "تطبيق الإقلاع عن التدخين",
+  "dashboard": "الرئيسية",
+  "aiAssistant": "المساعد الذكي",
+  "notes": "الملاحظات",
+  "progress": "التقدم",
+  "settings": "الإعدادات",
+  "language": "اللغة",
+  "english": "English",
+  "arabic": "العربية",
+  "selectLanguage": "اختر اللغة",
+  "save": "حفظ",
+  "cancel": "إلغاء"
+}

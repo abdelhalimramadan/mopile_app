@@ -9,6 +9,8 @@ import '../services/storage_services.dart';
 import '../utils/app_theme.dart';
 
 class EmergencyScreen extends StatefulWidget {
+  const EmergencyScreen({super.key});
+
   @override
   _EmergencyScreenState createState() => _EmergencyScreenState();
 }
@@ -99,12 +101,12 @@ class _EmergencyScreenState extends State<EmergencyScreen> with TickerProviderSt
 
   void _initializeAnimations() {
     _breathingController = AnimationController(
-      duration: Duration(seconds: 12), // 4 sec inhale, 4 hold, 4 exhale
+      duration: const Duration(seconds: 12), // 4 sec inhale, 4 hold, 4 exhale
       vsync: this,
     );
 
     _timerController = AnimationController(
-      duration: Duration(seconds: 300),
+      duration: const Duration(seconds: 300),
       vsync: this,
     );
 
@@ -119,7 +121,7 @@ class _EmergencyScreenState extends State<EmergencyScreen> with TickerProviderSt
 
   void _startCravingTimer() {
     _timerController.forward();
-    _cravingTimer = Timer.periodic(Duration(seconds: 1), (timer) {
+    _cravingTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
         if (_remainingSeconds > 0) {
           _remainingSeconds--;
@@ -138,7 +140,7 @@ class _EmergencyScreenState extends State<EmergencyScreen> with TickerProviderSt
     _breathingController.repeat();
 
     // Stop exercise after 1 minute
-    Timer(Duration(minutes: 1), () {
+    Timer(const Duration(minutes: 1), () {
       if (mounted) {
         _stopBreathingExercise();
       }
@@ -205,32 +207,32 @@ class _EmergencyScreenState extends State<EmergencyScreen> with TickerProviderSt
     return Scaffold(
       backgroundColor: Colors.red[50],
       appBar: AppBar(
-        title: Text('Emergency Support'),
+        title: const Text('Emergency Support'),
         backgroundColor: Colors.red,
         actions: [
           IconButton(
-            icon: Icon(Icons.phone),
+            icon: const Icon(Icons.phone),
             onPressed: _callSupport,
             tooltip: 'Call Support',
           ),
         ],
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         child: Column(
           children: [
             _buildCravingTimer(),
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
             _buildCravingIntensitySelector(),
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
             _buildBreathingExercise(),
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
             _buildAISupport(),
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
             _buildQuickTips(),
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
             _buildMotivationalMessage(),
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
             _buildQuickActions(),
           ],
         ),
@@ -243,7 +245,7 @@ class _EmergencyScreenState extends State<EmergencyScreen> with TickerProviderSt
     final seconds = _remainingSeconds % 60;
 
     return Container(
-      padding: EdgeInsets.all(25),
+      padding: const EdgeInsets.all(25),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [Colors.red[400]!, Colors.red[600]!],
@@ -251,41 +253,41 @@ class _EmergencyScreenState extends State<EmergencyScreen> with TickerProviderSt
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.red.withOpacity(0.3),
+            color: Colors.red.withValues(alpha: 0.3),
             blurRadius: 10,
-            offset: Offset(0, 5),
+            offset: const Offset(0, 5),
           ),
         ],
       ),
       child: Column(
         children: [
-          Icon(Icons.timer, size: 50, color: Colors.white),
-          SizedBox(height: 15),
-          Text(
+          const Icon(Icons.timer, size: 50, color: Colors.white),
+          const SizedBox(height: 15),
+          const Text(
             'Craving will fade in',
             style: TextStyle(
               color: Colors.white,
               fontSize: 16,
             ),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Text(
             '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}',
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 36,
               fontWeight: FontWeight.bold,
               fontFamily: 'monospace',
             ),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           LinearProgressIndicator(
             value: 1 - (_remainingSeconds / 300),
-            backgroundColor: Colors.white.withOpacity(0.3),
-            valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+            backgroundColor: Colors.white.withValues(alpha: 0.3),
+            valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
           ),
-          SizedBox(height: 10),
-          Text(
+          const SizedBox(height: 10),
+          const Text(
             'Stay strong! You\'re stronger than this craving',
             style: TextStyle(
               color: Colors.white,
@@ -299,7 +301,7 @@ class _EmergencyScreenState extends State<EmergencyScreen> with TickerProviderSt
 
   Widget _buildCravingIntensitySelector() {
     return Container(
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       decoration: AppTheme.cardDecoration,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -310,17 +312,17 @@ class _EmergencyScreenState extends State<EmergencyScreen> with TickerProviderSt
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: 15),
+          const SizedBox(height: 15),
           Row(
             children: [
               Expanded(
                 child: _buildIntensityButton('Low', 'low', Colors.green),
               ),
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
               Expanded(
                 child: _buildIntensityButton('Medium', 'medium', Colors.orange),
               ),
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
               Expanded(
                 child: _buildIntensityButton('High', 'high', Colors.red),
               ),
@@ -341,7 +343,7 @@ class _EmergencyScreenState extends State<EmergencyScreen> with TickerProviderSt
       style: ElevatedButton.styleFrom(
         backgroundColor: isSelected ? color : Colors.grey[200],
         foregroundColor: isSelected ? Colors.white : Colors.black,
-        padding: EdgeInsets.symmetric(vertical: 12),
+        padding: const EdgeInsets.symmetric(vertical: 12),
       ),
       child: Text(label),
     );
@@ -349,7 +351,7 @@ class _EmergencyScreenState extends State<EmergencyScreen> with TickerProviderSt
 
   Widget _buildBreathingExercise() {
     return Container(
-      padding: EdgeInsets.all(25),
+      padding: const EdgeInsets.all(25),
       decoration: AppTheme.cardDecoration,
       child: Column(
         children: [
@@ -360,7 +362,7 @@ class _EmergencyScreenState extends State<EmergencyScreen> with TickerProviderSt
               color: AppTheme.secondaryColor,
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
 
           // Animated breathing circle
           GestureDetector(
@@ -377,19 +379,19 @@ class _EmergencyScreenState extends State<EmergencyScreen> with TickerProviderSt
                       shape: BoxShape.circle,
                       gradient: RadialGradient(
                         colors: [
-                          AppTheme.secondaryColor.withOpacity(0.8),
-                          AppTheme.secondaryColor.withOpacity(0.6),
+                          AppTheme.secondaryColor.withValues(alpha: 0.8),
+                          AppTheme.secondaryColor.withValues(alpha: 0.6),
                         ],
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: AppTheme.secondaryColor.withOpacity(0.3),
+                          color: AppTheme.secondaryColor.withValues(alpha: 0.3),
                           blurRadius: 20,
                           spreadRadius: 5,
                         ),
                       ],
                     ),
-                    child: Center(
+                    child: const Center(
                       child: Icon(
                         Icons.air,
                         size: 50,
@@ -402,7 +404,7 @@ class _EmergencyScreenState extends State<EmergencyScreen> with TickerProviderSt
             ),
           ),
 
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Text(
             _getBreathingInstruction(),
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
@@ -411,16 +413,16 @@ class _EmergencyScreenState extends State<EmergencyScreen> with TickerProviderSt
             ),
             textAlign: TextAlign.center,
           ),
-          SizedBox(height: 15),
+          const SizedBox(height: 15),
 
           ElevatedButton(
             onPressed: _isBreathingActive ? _stopBreathingExercise : _startBreathingExercise,
-            child: Text(_isBreathingActive ? 'Stop Exercise' : 'Start Exercise'),
             style: ElevatedButton.styleFrom(
               backgroundColor: _isBreathingActive ? Colors.red : AppTheme.secondaryColor,
               foregroundColor: Colors.white,
-              padding: EdgeInsets.symmetric(horizontal: 30, vertical: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 12),
             ),
+            child: Text(_isBreathingActive ? 'Stop Exercise' : 'Start Exercise'),
           ),
         ],
       ),
@@ -429,21 +431,21 @@ class _EmergencyScreenState extends State<EmergencyScreen> with TickerProviderSt
 
   Widget _buildAISupport() {
     return Container(
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [AppTheme.primaryColor.withOpacity(0.1), AppTheme.primaryColor.withOpacity(0.2)],
+          colors: [AppTheme.primaryColor.withValues(alpha: 0.1), AppTheme.primaryColor.withValues(alpha: 0.2)],
         ),
         borderRadius: BorderRadius.circular(15),
-        border: Border.all(color: AppTheme.primaryColor.withOpacity(0.3)),
+        border: Border.all(color: AppTheme.primaryColor.withValues(alpha: 0.3)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              Icon(Icons.smart_toy, color: AppTheme.primaryColor),
-              SizedBox(width: 8),
+              const Icon(Icons.smart_toy, color: AppTheme.primaryColor),
+              const SizedBox(width: 8),
               Text(
                 'AI Support Message',
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
@@ -453,9 +455,9 @@ class _EmergencyScreenState extends State<EmergencyScreen> with TickerProviderSt
               ),
             ],
           ),
-          SizedBox(height: 15),
+          const SizedBox(height: 15),
           if (_isLoadingAI)
-            Row(
+            const Row(
               children: [
                 SizedBox(
                   width: 20,
@@ -471,13 +473,13 @@ class _EmergencyScreenState extends State<EmergencyScreen> with TickerProviderSt
               _aiResponse,
               style: Theme.of(context).textTheme.bodyLarge,
             ),
-          SizedBox(height: 15),
+          const SizedBox(height: 15),
           Align(
             alignment: Alignment.centerRight,
             child: TextButton.icon(
               onPressed: _getAISupport,
-              icon: Icon(Icons.refresh, size: 16),
-              label: Text('Get New Message'),
+              icon: const Icon(Icons.refresh, size: 16),
+              label: const Text('Get New Message'),
             ),
           ),
         ],
@@ -492,7 +494,7 @@ class _EmergencyScreenState extends State<EmergencyScreen> with TickerProviderSt
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: EdgeInsets.all(15),
+            padding: const EdgeInsets.all(15),
             child: Text(
               'Quick Tips to Beat Cravings',
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
@@ -500,7 +502,7 @@ class _EmergencyScreenState extends State<EmergencyScreen> with TickerProviderSt
               ),
             ),
           ),
-          Container(
+          SizedBox(
             height: 120,
             child: PageView.builder(
               itemCount: _emergencyTips.length,
@@ -513,31 +515,31 @@ class _EmergencyScreenState extends State<EmergencyScreen> with TickerProviderSt
                 final tip = _emergencyTips[index];
                 final color = AppTheme.getColorFromHex(tip.colorHex);
                 return Container(
-                  margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  padding: EdgeInsets.all(15),
+                  margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  padding: const EdgeInsets.all(15),
                   decoration: BoxDecoration(
-                    color: color.withOpacity(0.1),
+                    color: color.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: color.withOpacity(0.3)),
+                    border: Border.all(color: color.withValues(alpha: 0.3)),
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(_getIconFromName(tip.iconName), size: 30, color: color),
-                      SizedBox(height: 8),
+                      const SizedBox(height: 8),
                       Text(
                         tip.title,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 14,
                         ),
                         textAlign: TextAlign.center,
                       ),
-                      SizedBox(height: 5),
+                      const SizedBox(height: 5),
                       Expanded(
                         child: Text(
                           tip.description,
-                          style: TextStyle(fontSize: 12),
+                          style: const TextStyle(fontSize: 12),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -555,7 +557,7 @@ class _EmergencyScreenState extends State<EmergencyScreen> with TickerProviderSt
                   (index) => Container(
                 width: 8,
                 height: 8,
-                margin: EdgeInsets.symmetric(horizontal: 2, vertical: 10),
+                margin: const EdgeInsets.symmetric(horizontal: 2, vertical: 10),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: index == _currentTipIndex ? AppTheme.primaryColor : Colors.grey[300],
@@ -572,7 +574,7 @@ class _EmergencyScreenState extends State<EmergencyScreen> with TickerProviderSt
     final randomQuote = _motivationalQuotes[Random().nextInt(_motivationalQuotes.length)];
 
     return Container(
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [Colors.purple[300]!, Colors.purple[600]!],
@@ -581,11 +583,11 @@ class _EmergencyScreenState extends State<EmergencyScreen> with TickerProviderSt
       ),
       child: Column(
         children: [
-          Icon(Icons.format_quote, size: 30, color: Colors.white),
-          SizedBox(height: 10),
+          const Icon(Icons.format_quote, size: 30, color: Colors.white),
+          const SizedBox(height: 10),
           Text(
             randomQuote,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 16,
               fontWeight: FontWeight.bold,
@@ -593,18 +595,18 @@ class _EmergencyScreenState extends State<EmergencyScreen> with TickerProviderSt
             ),
             textAlign: TextAlign.center,
           ),
-          SizedBox(height: 15),
+          const SizedBox(height: 15),
           ElevatedButton(
             onPressed: () {
               setState(() {
                 // Refresh with new quote
               });
             },
-            child: Text('New Message'),
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.white,
               foregroundColor: Colors.purple[600],
             ),
+            child: const Text('New Message'),
           ),
         ],
       ),
@@ -619,55 +621,55 @@ class _EmergencyScreenState extends State<EmergencyScreen> with TickerProviderSt
             Expanded(
               child: ElevatedButton.icon(
                 onPressed: _callSupport,
-                icon: Icon(Icons.phone),
-                label: Text('Call Support'),
+                icon: const Icon(Icons.phone),
+                label: const Text('Call Support'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green,
                   foregroundColor: Colors.white,
-                  padding: EdgeInsets.symmetric(vertical: 15),
+                  padding: const EdgeInsets.symmetric(vertical: 15),
                 ),
               ),
             ),
-            SizedBox(width: 15),
+            const SizedBox(width: 15),
             Expanded(
               child: ElevatedButton.icon(
                 onPressed: _openChatWithAI,
-                icon: Icon(Icons.chat),
-                label: Text('Chat with AI'),
+                icon: const Icon(Icons.chat),
+                label: const Text('Chat with AI'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppTheme.secondaryColor,
                   foregroundColor: Colors.white,
-                  padding: EdgeInsets.symmetric(vertical: 15),
+                  padding: const EdgeInsets.symmetric(vertical: 15),
                 ),
               ),
             ),
           ],
         ),
-        SizedBox(height: 15),
+        const SizedBox(height: 15),
         Row(
           children: [
             Expanded(
               child: ElevatedButton.icon(
                 onPressed: _distractYourself,
-                icon: Icon(Icons.games),
-                label: Text('Distraction Games'),
+                icon: const Icon(Icons.games),
+                label: const Text('Distraction Games'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.orange,
                   foregroundColor: Colors.white,
-                  padding: EdgeInsets.symmetric(vertical: 15),
+                  padding: const EdgeInsets.symmetric(vertical: 15),
                 ),
               ),
             ),
-            SizedBox(width: 15),
+            const SizedBox(width: 15),
             Expanded(
               child: ElevatedButton.icon(
                 onPressed: _recordNote,
-                icon: Icon(Icons.note_add),
-                label: Text('Record Note'),
+                icon: const Icon(Icons.note_add),
+                label: const Text('Record Note'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.purple,
                   foregroundColor: Colors.white,
-                  padding: EdgeInsets.symmetric(vertical: 15),
+                  padding: const EdgeInsets.symmetric(vertical: 15),
                 ),
               ),
             ),
@@ -683,7 +685,7 @@ class _EmergencyScreenState extends State<EmergencyScreen> with TickerProviderSt
       barrierDismissible: false,
       builder: (context) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-        title: Column(
+        title: const Column(
           children: [
             Icon(Icons.celebration, size: 50, color: Colors.green),
             SizedBox(height: 10),
@@ -693,15 +695,15 @@ class _EmergencyScreenState extends State<EmergencyScreen> with TickerProviderSt
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
+            const Text(
               'Well done! You resisted for a full 5 minutes and overcame your smoking craving.',
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: 15),
+            const SizedBox(height: 15),
             Container(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: Colors.green.withOpacity(0.1),
+                color: Colors.green.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Text(
@@ -721,14 +723,14 @@ class _EmergencyScreenState extends State<EmergencyScreen> with TickerProviderSt
               Navigator.pop(context);
               Navigator.pop(context);
             },
-            child: Text('Back to Home'),
+            child: const Text('Back to Home'),
           ),
           ElevatedButton(
             onPressed: () {
               Navigator.pop(context);
               _recordVictoryNote();
             },
-            child: Text('Record Victory'),
+            child: const Text('Record Victory'),
           ),
         ],
       ),
@@ -757,23 +759,23 @@ class _EmergencyScreenState extends State<EmergencyScreen> with TickerProviderSt
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Support Options'),
+        title: const Text('Support Options'),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             ListTile(
-              leading: Icon(Icons.phone, color: Colors.green),
-              title: Text('Call Quitline'),
-              subtitle: Text('Free smoking cessation support'),
+              leading: const Icon(Icons.phone, color: Colors.green),
+              title: const Text('Call Quitline'),
+              subtitle: const Text('Free smoking cessation support'),
               onTap: () {
                 Navigator.pop(context);
                 // Launch phone dialer
               },
             ),
             ListTile(
-              leading: Icon(Icons.chat, color: AppTheme.primaryColor),
-              title: Text('Online Chat'),
-              subtitle: Text('24/7 text support'),
+              leading: const Icon(Icons.chat, color: AppTheme.primaryColor),
+              title: const Text('Online Chat'),
+              subtitle: const Text('24/7 text support'),
               onTap: () {
                 Navigator.pop(context);
                 // Open online chat
@@ -784,7 +786,7 @@ class _EmergencyScreenState extends State<EmergencyScreen> with TickerProviderSt
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text('Cancel'),
+            child: const Text('Cancel'),
           ),
         ],
       ),
@@ -800,32 +802,32 @@ class _EmergencyScreenState extends State<EmergencyScreen> with TickerProviderSt
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Distraction Activities'),
+        title: const Text('Distraction Activities'),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             ListTile(
-              leading: Icon(Icons.games, color: Colors.orange),
-              title: Text('Quick Games'),
-              subtitle: Text('Simple puzzle games'),
+              leading: const Icon(Icons.games, color: Colors.orange),
+              title: const Text('Quick Games'),
+              subtitle: const Text('Simple puzzle games'),
               onTap: () {
                 Navigator.pop(context);
                 _showComingSoonSnackbar('Quick Games');
               },
             ),
             ListTile(
-              leading: Icon(Icons.music_note, color: Colors.purple),
-              title: Text('Relaxing Music'),
-              subtitle: Text('Calm your mind'),
+              leading: const Icon(Icons.music_note, color: Colors.purple),
+              title: const Text('Relaxing Music'),
+              subtitle: const Text('Calm your mind'),
               onTap: () {
                 Navigator.pop(context);
                 _showComingSoonSnackbar('Relaxing Music');
               },
             ),
             ListTile(
-              leading: Icon(Icons.book, color: Colors.blue),
-              title: Text('Reading'),
-              subtitle: Text('Short articles'),
+              leading: const Icon(Icons.book, color: Colors.blue),
+              title: const Text('Reading'),
+              subtitle: const Text('Short articles'),
               onTap: () {
                 Navigator.pop(context);
                 _showComingSoonSnackbar('Reading');
@@ -836,7 +838,7 @@ class _EmergencyScreenState extends State<EmergencyScreen> with TickerProviderSt
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text('Cancel'),
+            child: const Text('Cancel'),
           ),
         ],
       ),
@@ -851,7 +853,7 @@ class _EmergencyScreenState extends State<EmergencyScreen> with TickerProviderSt
       if (note != null) {
         StorageService.addSelfNote(note);
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             content: Text('Emergency note saved successfully'),
             backgroundColor: AppTheme.successColor,
           ),
@@ -874,7 +876,7 @@ class _EmergencyScreenState extends State<EmergencyScreen> with TickerProviderSt
     Navigator.pop(context);
 
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
+      const SnackBar(
         content: Text('Victory note recorded!'),
         backgroundColor: AppTheme.successColor,
       ),
@@ -912,14 +914,14 @@ class _QuickNoteDialogState extends State<_QuickNoteDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('Quick Emergency Note'),
+      title: const Text('Quick Emergency Note'),
       content: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             TextField(
               controller: _contentController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'How are you feeling right now?',
                 hintText: 'Describe your current state, thoughts, or what helped...',
                 border: OutlineInputBorder(),
@@ -927,10 +929,10 @@ class _QuickNoteDialogState extends State<_QuickNoteDialog> {
               maxLines: 4,
               autofocus: true,
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Row(
               children: [
-                Text('Mood: '),
+                const Text('Mood: '),
                 Expanded(
                   child: DropdownButton<MoodType>(
                     value: _selectedMood,
@@ -945,7 +947,7 @@ class _QuickNoteDialogState extends State<_QuickNoteDialog> {
                               color: AppTheme.getMoodColor(mood),
                               size: 16,
                             ),
-                            SizedBox(width: 8),
+                            const SizedBox(width: 8),
                             Text(_getMoodName(mood)),
                           ],
                         ),
@@ -961,7 +963,7 @@ class _QuickNoteDialogState extends State<_QuickNoteDialog> {
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child: Text('Cancel'),
+          child: const Text('Cancel'),
         ),
         ElevatedButton(
           onPressed: () {
@@ -977,7 +979,7 @@ class _QuickNoteDialogState extends State<_QuickNoteDialog> {
               Navigator.pop(context, note);
             }
           },
-          child: Text('Save'),
+          child: const Text('Save'),
         ),
       ],
     );

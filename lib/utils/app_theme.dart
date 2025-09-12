@@ -60,12 +60,10 @@ class AppTheme {
         primary: primaryColor,
         secondary: secondaryColor,
         surface: surfaceColor,
-        background: backgroundColor,
         error: errorColor,
         onPrimary: Colors.white,
         onSecondary: Colors.white,
         onSurface: textPrimaryColor,
-        onBackground: textPrimaryColor,
         onError: Colors.white,
       ),
 
@@ -90,7 +88,7 @@ class AppTheme {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
-        shadowColor: Colors.grey.withOpacity(0.2),
+        shadowColor: Colors.grey.withValues(alpha: 0.2),
         surfaceTintColor: Colors.transparent,
         clipBehavior: Clip.antiAlias,
       ),
@@ -187,7 +185,7 @@ class AppTheme {
       // Chip Theme
       chipTheme: ChipThemeData(
         backgroundColor: Colors.grey[100],
-        selectedColor: primaryColor.withOpacity(0.2),
+        selectedColor: primaryColor.withValues(alpha: 0.2),
         disabledColor: Colors.grey[300],
         labelStyle: const TextStyle(color: textPrimaryColor),
         secondarySelectedColor: primaryColor,
@@ -204,12 +202,12 @@ class AppTheme {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
         ),
-        titleTextStyle: TextStyle(
+        titleTextStyle: const TextStyle(
           color: textPrimaryColor,
           fontSize: 20,
           fontWeight: FontWeight.bold,
         ),
-        contentTextStyle: TextStyle(
+        contentTextStyle: const TextStyle(
           color: textSecondaryColor,
           fontSize: 16,
         ),
@@ -238,7 +236,7 @@ class AppTheme {
         activeTrackColor: primaryColor,
         inactiveTrackColor: Colors.grey[300],
         thumbColor: primaryColor,
-        overlayColor: primaryColor.withOpacity(0.2),
+        overlayColor: primaryColor.withValues(alpha: 0.2),
         valueIndicatorColor: primaryColor,
         valueIndicatorTextStyle: const TextStyle(
           color: Colors.white,
@@ -248,15 +246,15 @@ class AppTheme {
 
       // Switch Theme
       switchTheme: SwitchThemeData(
-        thumbColor: MaterialStateProperty.resolveWith((states) {
-          if (states.contains(MaterialState.selected)) {
+        thumbColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
             return primaryColor;
           }
           return Colors.grey[300];
         }),
-        trackColor: MaterialStateProperty.resolveWith((states) {
-          if (states.contains(MaterialState.selected)) {
-            return primaryColor.withOpacity(0.5);
+        trackColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
+            return primaryColor.withValues(alpha: 0.5);
           }
           return Colors.grey[300];
         }),
@@ -264,13 +262,13 @@ class AppTheme {
 
       // Checkbox Theme
       checkboxTheme: CheckboxThemeData(
-        fillColor: MaterialStateProperty.resolveWith((states) {
-          if (states.contains(MaterialState.selected)) {
+        fillColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
             return primaryColor;
           }
           return Colors.transparent;
         }),
-        checkColor: MaterialStateProperty.all(Colors.white),
+        checkColor: WidgetStateProperty.all(Colors.white),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(4),
         ),
@@ -278,8 +276,8 @@ class AppTheme {
 
       // Radio Theme
       radioTheme: RadioThemeData(
-        fillColor: MaterialStateProperty.resolveWith((states) {
-          if (states.contains(MaterialState.selected)) {
+        fillColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
             return primaryColor;
           }
           return Colors.grey[400];
@@ -380,7 +378,7 @@ class AppTheme {
     borderRadius: BorderRadius.circular(12),
     boxShadow: [
       BoxShadow(
-        color: Colors.grey.withOpacity(0.1),
+        color: Colors.grey.withValues(alpha: 0.1),
         blurRadius: 6,
         offset: const Offset(0, 2),
       ),
@@ -396,7 +394,7 @@ class AppTheme {
     borderRadius: BorderRadius.circular(12),
     boxShadow: [
       BoxShadow(
-        color: primaryColor.withOpacity(0.3),
+        color: primaryColor.withValues(alpha: 0.3),
         blurRadius: 10,
         offset: const Offset(0, 4),
       ),
@@ -412,7 +410,7 @@ class AppTheme {
     borderRadius: BorderRadius.circular(12),
     boxShadow: [
       BoxShadow(
-        color: errorColor.withOpacity(0.3),
+        color: errorColor.withValues(alpha: 0.3),
         blurRadius: 10,
         offset: const Offset(0, 4),
       ),
@@ -440,9 +438,7 @@ class AppTheme {
         return Icons.emoji_emotions_outlined;
       case MoodType.confident:
         return Icons.emoji_events;
-      default:
-        return Icons.help_outline;
-    }
+      }
   }
 
   static Color getMoodColor(MoodType mood) {
@@ -457,8 +453,7 @@ class AppTheme {
         return const Color(0xFF9C27B0);
       case MoodType.confident:
         return const Color(0xFF2196F3);
-      default:
-        return primaryColor; // Fallback color
+      // Fallback color
     }
   }
 }

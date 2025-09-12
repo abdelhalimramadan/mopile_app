@@ -4,6 +4,8 @@ import '../services/storage_services.dart';
 
 
 class ProgressScreen extends StatefulWidget {
+  const ProgressScreen({super.key});
+
   @override
   _ProgressScreenState createState() => _ProgressScreenState();
 }
@@ -48,18 +50,18 @@ class _ProgressScreenState extends State<ProgressScreen> with SingleTickerProvid
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('My Progress'),
+          title: const Text('My Progress'),
           bottom: TabBar(
             controller: _tabController,
-            tabs: [
-              Tab(text: 'Overview', icon: Icon(Icons.dashboard)),
-              Tab(text: 'Achievements', icon: Icon(Icons.emoji_events)),
-              Tab(text: 'Health Benefits', icon: Icon(Icons.favorite)),
+            tabs: const [
+              Tab(text: 'Overview', icon: Icon(Icons.dashboard,color: Colors.white),),
+              Tab(text: 'Achievements', icon: Icon(Icons.emoji_events,color: Colors.white)),
+              Tab(text: 'Health Benefits', icon: Icon(Icons.favorite,color: Colors.white)),
             ],
           ),
         ),
       body: _isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : TabBarView(
         controller: _tabController,
         children: [
@@ -73,18 +75,18 @@ class _ProgressScreenState extends State<ProgressScreen> with SingleTickerProvid
 
   Widget _buildOverviewTab() {
     if (_progressStats == null) {
-      return Center(child: Text('No progress data available'));
+      return const Center(child: Text('No progress data available'));
     }
 
     return SingleChildScrollView(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildStatsCard(),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           _buildMilestoneProgress(),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           _buildHealthBenefitsPreview(),
         ],
       ),
@@ -95,14 +97,14 @@ class _ProgressScreenState extends State<ProgressScreen> with SingleTickerProvid
     return Card(
       elevation: 4,
       child: Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
           children: [
             Text(
               'Your Progress',
               style: Theme.of(context).textTheme.titleLarge,
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -133,7 +135,7 @@ class _ProgressScreenState extends State<ProgressScreen> with SingleTickerProvid
     return Column(
       children: [
         Icon(icon, size: 32, color: Theme.of(context).primaryColor),
-        SizedBox(height: 8),
+        const SizedBox(height: 8),
         Text(
           value,
           style: Theme.of(context).textTheme.headlineSmall?.copyWith(
@@ -151,11 +153,11 @@ class _ProgressScreenState extends State<ProgressScreen> with SingleTickerProvid
 
   Widget _buildMilestoneProgress() {
     final nextMilestone = _getNextMilestone();
-    if (nextMilestone == null) return SizedBox();
+    if (nextMilestone == null) return const SizedBox();
 
     final progress = (_progressStats!.smokeFreeDays * 24 * 60) / nextMilestone.minutesFromQuit;    return Card(
       child: Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -168,17 +170,17 @@ class _ProgressScreenState extends State<ProgressScreen> with SingleTickerProvid
                 ),
                 Chip(
                   label: Text('${(nextMilestone.minutesFromQuit / (24 * 60)).round()} days'),
-                  backgroundColor: Theme.of(context).primaryColor.withOpacity(0.1),
+                  backgroundColor: Theme.of(context).primaryColor.withValues(alpha: 0.1),
                 )
               ],
             ),
-            SizedBox(height: 12),
+            const SizedBox(height: 12),
             LinearProgressIndicator(
               value: progress > 1 ? 1.0 : progress,
               minHeight: 12,
               borderRadius: BorderRadius.circular(6),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Text(
               progress >= 1
                   ? 'Milestone Reached!'
@@ -186,7 +188,7 @@ class _ProgressScreenState extends State<ProgressScreen> with SingleTickerProvid
               style: Theme.of(context).textTheme.bodySmall,
             ),
             if (progress < 1) ...[
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               Text(
                 '${((nextMilestone.minutesFromQuit - minutesFromQuit) / (24 * 60)).ceil()} days to go',
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
@@ -215,11 +217,11 @@ class _ProgressScreenState extends State<ProgressScreen> with SingleTickerProvid
   }
   Widget _buildHealthBenefitsPreview() {
     final benefits = _getCurrentBenefits();
-    if (benefits.isEmpty) return SizedBox();
+    if (benefits.isEmpty) return const SizedBox();
 
     return Card(
       child: Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -227,14 +229,14 @@ class _ProgressScreenState extends State<ProgressScreen> with SingleTickerProvid
               'Health Benefits',
               style: Theme.of(context).textTheme.titleMedium,
             ),
-            SizedBox(height: 12),
+            const SizedBox(height: 12),
             ...benefits.map((benefit) => Padding(
-              padding: EdgeInsets.symmetric(vertical: 4),
+              padding: const EdgeInsets.symmetric(vertical: 4),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Icon(Icons.check_circle, color: Colors.green, size: 20),
-                  SizedBox(width: 8),
+                  const Icon(Icons.check_circle, color: Colors.green, size: 20),
+                  const SizedBox(width: 8),
                   Expanded(child: Text(benefit)),
                 ],
               ),
@@ -261,18 +263,18 @@ class _ProgressScreenState extends State<ProgressScreen> with SingleTickerProvid
 
   Widget _buildAchievementsTab() {
     if (_milestones.isEmpty) {
-      return Center(child: Text('No achievements available'));
+      return const Center(child: Text('No achievements available'));
     }
 
     return ListView.builder(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       itemCount: _milestones.length,
       itemBuilder: (context, index) {
         final milestone = _milestones[index];
         final isUnlocked = _progressStats != null &&
             (_progressStats!.smokeFreeDays * 24 * 60) >= milestone.minutesFromQuit;
         return Card(
-          margin: EdgeInsets.only(bottom: 12),
+          margin: const EdgeInsets.only(bottom: 12),
           color: isUnlocked ? null : Colors.grey[100],
           child: ListTile(
             leading: Icon(
@@ -345,9 +347,9 @@ class _ProgressScreenState extends State<ProgressScreen> with SingleTickerProvid
     ];
 
     return ListView.separated(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       itemCount: benefits.length,
-      separatorBuilder: (context, index) => SizedBox(height: 12),
+      separatorBuilder: (context, index) => const SizedBox(height: 12),
       itemBuilder: (context, index) => benefits[index],
     );
   }
@@ -355,18 +357,18 @@ class _ProgressScreenState extends State<ProgressScreen> with SingleTickerProvid
   Widget _buildBenefitItem(String time, String description, IconData icon) {
     return Card(
       child: Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Row(
           children: [
             Container(
-              padding: EdgeInsets.all(12),
+              padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor.withOpacity(0.1),
+                color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
                 shape: BoxShape.circle,
               ),
               child: Icon(icon, color: Theme.of(context).primaryColor),
             ),
-            SizedBox(width: 16),
+            const SizedBox(width: 16),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -377,7 +379,7 @@ class _ProgressScreenState extends State<ProgressScreen> with SingleTickerProvid
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 4),
+                  const SizedBox(height: 4),
                   Text(description),
                 ],
               ),

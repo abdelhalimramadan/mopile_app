@@ -11,7 +11,7 @@ import 'emergency_screen.dart';
 import 'progress_screen.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -40,9 +40,9 @@ class _HomeScreenState extends State<HomeScreen> {
   void _initializeScreens() {
     _screens.addAll([
       _buildDashboard(),
-      AIAssistantScreen(),
-      SelfNotesScreen(),
-      ProgressScreen(),
+      const AIAssistantScreen(),
+      const SelfNotesScreen(),
+      const ProgressScreen(),
     ]);
   }
 
@@ -56,28 +56,36 @@ class _HomeScreenState extends State<HomeScreen> {
       final stats = StorageService.getProgressStats();
       print('Stats loaded: ${stats != null}');
 
-      setState(() {
-        _userProfile = profile;
-        _progressStats = stats;
-        _isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          _userProfile = profile;
+          _progressStats = stats;
+          _isLoading = false;
+        });
+      }
     } catch (e, stackTrace) {
       print('Error in _loadUserData:');
       print('Error: $e');
       print('Stack trace: $stackTrace');
-      setState(() => _isLoading = false);
-
-      // Show error to user
+      
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to load data. Please restart the app.')),
-        );
+        setState(() => _isLoading = false);
+        // Store the context in a local variable before async gap
+        final context = this.context;
+        // Use Future.microtask to ensure the context is still valid
+        Future.microtask(() {
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Failed to load data. Please restart the app.')),
+            );
+          }
+        });
       }
     }
   }
 
   void _startUpdateTimer() {
-    _updateTimer = Timer.periodic(Duration(minutes: 1), (timer) {
+    _updateTimer = Timer.periodic(const Duration(minutes: 1), (timer) {
       if (_userProfile != null) {
         final stats = StorageService.getProgressStats();
         setState(() {
@@ -110,7 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
-      return Scaffold(
+      return const Scaffold(
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -134,19 +142,19 @@ class _HomeScreenState extends State<HomeScreen> {
         currentIndex: _currentIndex,
         onTap: (index) => setState(() => _currentIndex = index),
         items: [
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
           ),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(Icons.smart_toy),
             label: 'AI Assistant',
           ),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(Icons.note_alt),
             label: 'My Notes',
           ),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(Icons.trending_up),
             label: 'Progress',
           ),
@@ -157,17 +165,17 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildDashboard() {
     final daysQuit = _progressStats?.smokeFreeDays ?? 0;
-    final moneySaved = (daysQuit * (_userProfile?.dailyCigarettes ?? 20) * 0.5).toStringAsFixed(2);
+    (daysQuit * (_userProfile?.dailyCigarettes ?? 20) * 0.5).toStringAsFixed(2);
 
     return Scaffold(
-      backgroundColor: Color(0xFFF5F7FA),
+      backgroundColor: const Color(0xFFF5F7FA),
       appBar: AppBar(
-        title: Text('Quit Smoking Journey', style: TextStyle(fontWeight: FontWeight.bold)),
-        backgroundColor: Color(0xFF4CAF50),
+        title: const Text('Quit Smoking Journey', style: TextStyle(fontWeight: FontWeight.bold)),
+        backgroundColor: const Color(0xFF4CAF50),
         elevation: 0,
         actions: [
           IconButton(
-            icon: Icon(Icons.settings, color: Colors.white),
+            icon: const Icon(Icons.settings, color: Colors.white),
             onPressed: _showSettingsDialog,
           ),
         ],
@@ -175,14 +183,14 @@ class _HomeScreenState extends State<HomeScreen> {
       body: RefreshIndicator(
         onRefresh: _loadUserData,
         child: SingleChildScrollView(
-          physics: AlwaysScrollableScrollPhysics(),
+          physics: const AlwaysScrollableScrollPhysics(),
           child: Column(
             children: [
               // Header with progress
               Container(
                 width: double.infinity,
-                padding: EdgeInsets.all(20),
-                decoration: BoxDecoration(
+                padding: const EdgeInsets.all(20),
+                decoration: const BoxDecoration(
                   gradient: LinearGradient(
                     colors: [Color(0xFF4CAF50), Color(0xFF2E7D32)],
                     begin: Alignment.topLeft,
@@ -194,9 +202,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Text(
+                    const Text(
                       'Welcome Back',
                       style: TextStyle(
                         color: Colors.white,
@@ -204,14 +212,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(height: 8),
-                    Text(
+                    const SizedBox(height: 8),
+                    const Text(
                       'You\'ve been smoke-free for',
                       style: TextStyle(color: Colors.white70, fontSize: 16),
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     _buildTimeCounter(),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     _buildStatsRow(),
                   ],
                 ),
@@ -219,12 +227,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
               // Quick Actions
               Padding(
-                padding: EdgeInsets.all(16),
+                padding: const EdgeInsets.all(16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Quick Actions', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                    SizedBox(height: 12),
+                    const Text('Quick Actions', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                    const SizedBox(height: 12),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
@@ -240,13 +248,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
               // Health Benefits
               Container(
-                margin: EdgeInsets.symmetric(horizontal: 16),
-                padding: EdgeInsets.all(16),
+                margin: const EdgeInsets.symmetric(horizontal: 16),
+                padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(15),
                   boxShadow: [
-                    BoxShadow(
+                    const BoxShadow(
                       color: Colors.black12,
                       blurRadius: 10,
                       offset: Offset(0, 4),
@@ -256,8 +264,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Health Improvements', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                    SizedBox(height: 12),
+                    const Text('Health Improvements', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                    const SizedBox(height: 12),
                     _buildHealthBenefit('Blood Pressure', 'Back to normal levels', '✓', daysQuit >= 20),
                     _buildHealthBenefit('Oxygen', 'Improved oxygen flow', '✓', daysQuit >= 3),
                     _buildHealthBenefit('Lungs', 'Better lung function', '✓', daysQuit >= 30),
@@ -269,7 +277,7 @@ class _HomeScreenState extends State<HomeScreen> {
               // Daily Tip
               _buildDailyTipCard(),
 
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
             ],
           ),
         ),
@@ -281,26 +289,26 @@ class _HomeScreenState extends State<HomeScreen> {
     return Column(
       children: [
         Container(
-          padding: EdgeInsets.all(12),
+          padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
             color: Colors.green.shade100,
             shape: BoxShape.circle,
           ),
-          child: Icon(icon, color: Color(0xFF2E7D32)),
+          child: Icon(icon, color: const Color(0xFF2E7D32)),
         ),
-        SizedBox(height: 8),
-        Text(label, style: TextStyle(fontSize: 12)),
+        const SizedBox(height: 8),
+        Text(label, style: const TextStyle(fontSize: 12)),
       ],
     );
   }
 
   Widget _buildHealthBenefit(String title, String description, String status, bool achieved) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 8),
+      padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
         children: [
           Container(
-            padding: EdgeInsets.all(4),
+            padding: const EdgeInsets.all(4),
             decoration: BoxDecoration(
               color: achieved ? Colors.green.shade100 : Colors.grey,
               shape: BoxShape.circle,
@@ -313,7 +321,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-          SizedBox(width: 12),
+          const SizedBox(width: 12),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -340,8 +348,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildDailyTipCard() {
     return Container(
-      margin: EdgeInsets.all(16),
-      padding: EdgeInsets.all(16),
+      margin: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.blue.shade50,
         borderRadius: BorderRadius.circular(15),
@@ -353,11 +361,11 @@ class _HomeScreenState extends State<HomeScreen> {
           Row(
             children: [
               Icon(Icons.lightbulb_outline, color: Colors.amber.shade700),
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
               Text('Daily Tip', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blue.shade800)),
             ],
           ),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           Text(
             _dailyTip.isNotEmpty ? _dailyTip : 'Loading tip...',
             style: TextStyle(color: Colors.blueGrey.shade800),
@@ -370,9 +378,9 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildWelcomeCard() {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       decoration: AppTheme.primaryGradientDecoration,
-      child: Column(
+      child: const Column(
         children: [
           Icon(Icons.smoke_free, size: 50, color: Colors.white),
           SizedBox(height: 10),
@@ -400,36 +408,36 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildTimeCounter() {
     if (_progressStats == null) {
-      return Container(
+      return const SizedBox(
         height: 120,
         child: Center(child: CircularProgressIndicator()),
       );
     }
 
     return Container(
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       decoration: AppTheme.cardDecoration,
       child: Column(
         children: [
-          Text(
+          const Text(
             'Smoke-Free For',
             style: AppTheme.cardSubtitleStyle,
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Text(
             _progressStats!.formattedTimeSmokeeFree,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
               color: AppTheme.primaryColor,
             ),
             textAlign: TextAlign.center,
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           LinearProgressIndicator(
             value: _getProgressValue(),
             backgroundColor: Colors.grey[200],
-            valueColor: AlwaysStoppedAnimation<Color>(AppTheme.primaryColor),
+            valueColor: const AlwaysStoppedAnimation<Color>(AppTheme.primaryColor),
           ),
         ],
       ),
@@ -437,7 +445,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildStatsRow() {
-    if (_progressStats == null) return SizedBox.shrink();
+    if (_progressStats == null) return const SizedBox.shrink();
 
     return Row(
       children: [
@@ -449,7 +457,7 @@ class _HomeScreenState extends State<HomeScreen> {
             AppTheme.successColor,
           ),
         ),
-        SizedBox(width: 15),
+        const SizedBox(width: 15),
         Expanded(
           child: _buildStatCard(
             'Money Saved',
@@ -464,12 +472,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildStatCard(String title, String value, IconData icon, Color color) {
     return Container(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       decoration: AppTheme.cardDecoration,
       child: Column(
         children: [
           Icon(icon, size: 30, color: color),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           Text(
             value,
             style: TextStyle(
@@ -478,10 +486,10 @@ class _HomeScreenState extends State<HomeScreen> {
               color: color,
             ),
           ),
-          SizedBox(height: 4),
+          const SizedBox(height: 4),
           Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 12,
               color: AppTheme.textSecondaryColor,
             ),
@@ -494,7 +502,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildDailyTip() {
     return Container(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: AppTheme.infoColor.withOpacity(0.1),
         borderRadius: BorderRadius.circular(12),
@@ -503,7 +511,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
+          const Row(
             children: [
               Icon(Icons.lightbulb, color: AppTheme.infoColor),
               SizedBox(width: 8),
@@ -517,21 +525,21 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ],
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Text(
             _dailyTip,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 14,
               color: AppTheme.textPrimaryColor,
             ),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Align(
             alignment: Alignment.centerLeft,
             child: TextButton.icon(
               onPressed: _loadDailyTip,
-              icon: Icon(Icons.refresh, size: 16),
-              label: Text('New Tip'),
+              icon: const Icon(Icons.refresh, size: 16),
+              label: const Text('New Tip'),
               style: TextButton.styleFrom(
                 foregroundColor: AppTheme.infoColor,
               ),
@@ -546,11 +554,11 @@ class _HomeScreenState extends State<HomeScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        const Text(
           'Quick Actions',
           style: AppTheme.cardTitleStyle,
         ),
-        SizedBox(height: 15),
+        const SizedBox(height: 15),
         Row(
           children: [
             Expanded(
@@ -560,11 +568,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 Colors.red,
                     () => Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => EmergencyScreen()),
+                  MaterialPageRoute(builder: (context) => const EmergencyScreen()),
                 ),
               ),
             ),
-            SizedBox(width: 15),
+            const SizedBox(width: 15),
             Expanded(
               child: _buildActionButton(
                 'Add Note',
@@ -575,7 +583,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ],
         ),
-        SizedBox(height: 15),
+        const SizedBox(height: 15),
         Row(
           children: [
             Expanded(
@@ -586,7 +594,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     () => _showCelebrationDialog(),
               ),
             ),
-            SizedBox(width: 15),
+            const SizedBox(width: 15),
             Expanded(
               child: _buildActionButton(
                 'Chat with Assistant',
@@ -612,7 +620,7 @@ class _HomeScreenState extends State<HomeScreen> {
       style: ElevatedButton.styleFrom(
         backgroundColor: color,
         foregroundColor: Colors.white,
-        padding: EdgeInsets.symmetric(vertical: 16),
+        padding: const EdgeInsets.symmetric(vertical: 16),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
@@ -620,10 +628,10 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Column(
         children: [
           Icon(icon, size: 24),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           Text(
             title,
-            style: TextStyle(fontSize: 12),
+            style: const TextStyle(fontSize: 12),
             textAlign: TextAlign.center,
           ),
         ],
@@ -633,7 +641,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildRecentMilestones() {
     if (_progressStats == null || _progressStats!.achievedMilestones.isEmpty) {
-      return SizedBox.shrink();
+      return const SizedBox.shrink();
     }
 
     final recentMilestones = _progressStats!.achievedMilestones
@@ -646,20 +654,20 @@ class _HomeScreenState extends State<HomeScreen> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
+            const Text(
               'Recent Achievements',
               style: AppTheme.cardTitleStyle,
             ),
             TextButton(
               onPressed: () => setState(() => _currentIndex = 3),
-              child: Text('View All'),
+              child: const Text('View All'),
             ),
           ],
         ),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         ...recentMilestones.map((milestone) => Container(
-          margin: EdgeInsets.only(bottom: 8),
-          padding: EdgeInsets.all(12),
+          margin: const EdgeInsets.only(bottom: 8),
+          padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
             color: AppTheme.successColor.withOpacity(0.1),
             borderRadius: BorderRadius.circular(8),
@@ -669,26 +677,26 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           child: Row(
             children: [
-              Icon(
+              const Icon(
                 Icons.check_circle,
                 color: AppTheme.successColor,
                 size: 20,
               ),
-              SizedBox(width: 12),
+              const SizedBox(width: 12),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       milestone.title,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 14,
                       ),
                     ),
                     Text(
                       milestone.description,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 12,
                         color: AppTheme.textSecondaryColor,
                       ),
@@ -714,12 +722,12 @@ class _HomeScreenState extends State<HomeScreen> {
   void _showAddNoteDialog() {
     showDialog(
       context: context,
-      builder: (context) => AddNoteDialog(),
+      builder: (context) => const AddNoteDialog(),
     ).then((note) {
       if (note != null) {
         StorageService.addSelfNote(note);
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Note saved successfully')),
+          const SnackBar(content: Text('Note saved successfully')),
         );
       }
     });
@@ -729,7 +737,7 @@ class _HomeScreenState extends State<HomeScreen> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Row(
+        title: const Row(
           children: [
             Icon(Icons.celebration, color: Colors.amber),
             SizedBox(width: 8),
@@ -739,11 +747,11 @@ class _HomeScreenState extends State<HomeScreen> {
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('You\'re doing a great job on your quit smoking journey!'),
-            SizedBox(height: 15),
+            const Text('You\'re doing a great job on your quit smoking journey!'),
+            const SizedBox(height: 15),
             if (_progressStats != null) ...[
-              Text('Your achievements:'),
-              SizedBox(height: 10),
+              const Text('Your achievements:'),
+              const SizedBox(height: 10),
               Text('🚭 ${_progressStats!.cigarettesAvoided} cigarettes avoided'),
               Text('💰 ${_progressStats!.moneySaved.toStringAsFixed(0)} EGP saved'),
               Text('⏰ ${_progressStats!.formattedTimeSmokeeFree}'),
@@ -753,14 +761,14 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text('Thanks'),
+            child: const Text('Thanks'),
           ),
           ElevatedButton(
             onPressed: () {
               Navigator.pop(context);
               _shareProgress();
             },
-            child: Text('Share Achievement'),
+            child: const Text('Share Achievement'),
           ),
         ],
       ),
@@ -771,29 +779,29 @@ class _HomeScreenState extends State<HomeScreen> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Settings'),
+        title: const Text('Settings'),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             ListTile(
-              leading: Icon(Icons.notifications),
-              title: Text('Notifications'),
+              leading: const Icon(Icons.notifications),
+              title: const Text('Notifications'),
               onTap: () {
                 Navigator.pop(context);
                 _showNotificationSettings();
               },
             ),
             ListTile(
-              leading: Icon(Icons.refresh),
-              title: Text('Reset Data'),
+              leading: const Icon(Icons.refresh),
+              title: const Text('Reset Data'),
               onTap: () {
                 Navigator.pop(context);
                 _showResetDialog();
               },
             ),
             ListTile(
-              leading: Icon(Icons.info),
-              title: Text('About'),
+              leading: const Icon(Icons.info),
+              title: const Text('About'),
               onTap: () {
                 Navigator.pop(context);
                 _showAboutDialog();
@@ -804,7 +812,7 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text('Close'),
+            child: const Text('Close'),
           ),
         ],
       ),
@@ -819,12 +827,12 @@ class _HomeScreenState extends State<HomeScreen> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Reset Data'),
-        content: Text('Are you sure you want to delete all data? This action cannot be undone.'),
+        title: const Text('Reset Data'),
+        content: const Text('Are you sure you want to delete all data? This action cannot be undone.'),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text('Cancel'),
+            child: const Text('Cancel'),
           ),
           ElevatedButton(
             onPressed: () async {
@@ -833,7 +841,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Navigator.pushReplacementNamed(context, '/setup');
             },
             style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-            child: Text('Delete'),
+            child: const Text('Delete'),
           ),
         ],
       ),
@@ -843,7 +851,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void _showAboutDialog() {
     showDialog(
       context: context,
-      builder: (context) => AboutDialog(
+      builder: (context) => const AboutDialog(
         applicationName: 'Quit Smoking Assistant',
         applicationVersion: '1.0.0',
         applicationIcon: Icon(Icons.smoke_free, size: 50),
@@ -869,6 +877,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
 // Add Note Dialog Widget
 class AddNoteDialog extends StatefulWidget {
+  const AddNoteDialog({super.key});
+
   @override
   _AddNoteDialogState createState() => _AddNoteDialogState();
 }
@@ -881,31 +891,31 @@ class _AddNoteDialogState extends State<AddNoteDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('Add New Note'),
+      title: const Text('Add New Note'),
       content: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             TextField(
               controller: _titleController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Title',
                 border: OutlineInputBorder(),
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             TextField(
               controller: _contentController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Content',
                 border: OutlineInputBorder(),
               ),
               maxLines: 3,
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Row(
               children: [
-                Text('Mood: '),
+                const Text('Mood: '),
                 Expanded(
                   child: DropdownButton<MoodType>(
                     value: _selectedMood,
@@ -919,7 +929,7 @@ class _AddNoteDialogState extends State<AddNoteDialog> {
                               AppTheme.getMoodIcon(mood),
                               color: AppTheme.getMoodColor(mood),
                             ),
-                            SizedBox(width: 8),
+                            const SizedBox(width: 8),
                             Text(_getMoodName(mood)),
                           ],
                         ),
@@ -935,7 +945,7 @@ class _AddNoteDialogState extends State<AddNoteDialog> {
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child: Text('Cancel'),
+          child: const Text('Cancel'),
         ),
         ElevatedButton(
           onPressed: () {
@@ -950,7 +960,7 @@ class _AddNoteDialogState extends State<AddNoteDialog> {
               Navigator.pop(context, note);
             }
           },
-          child: Text('Save'),
+          child: const Text('Save'),
         ),
       ],
     );

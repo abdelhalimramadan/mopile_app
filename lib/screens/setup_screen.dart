@@ -6,6 +6,8 @@ import '../utils/app_theme.dart';
 import 'home_screen.dart';
 
 class SetupScreen extends StatefulWidget {
+  const SetupScreen({super.key});
+
   @override
   _SetupScreenState createState() => _SetupScreenState();
 }
@@ -19,7 +21,7 @@ class _SetupScreenState extends State<SetupScreen> {
   int _dailyCigarettes = 20;
   double _cigarettePrice = 0.5;
   String _personalReason = '';
-  List<String> _selectedMotivations = [];
+  final List<String> _selectedMotivations = [];
 
   final List<String> _availableMotivations = [
     'Improve overall health',
@@ -70,15 +72,15 @@ class _SetupScreenState extends State<SetupScreen> {
 
   Widget _buildHeader() {
     return Container(
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       child: Column(
         children: [
-          Icon(
+          const Icon(
             Icons.smoke_free,
             size: 50,
             color: AppTheme.primaryColor,
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Text(
             _pageTitles[_currentPage],
             style: Theme.of(context).textTheme.headlineMedium?.copyWith(
@@ -92,13 +94,13 @@ class _SetupScreenState extends State<SetupScreen> {
 
   Widget _buildProgressIndicator() {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         children: [
           Row(
             children: List.generate(5, (index) => _buildProgressDot(index)),
           ),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           Text(
             'Step ${_currentPage + 1} of 5',
             style: Theme.of(context).textTheme.bodySmall,
@@ -112,7 +114,7 @@ class _SetupScreenState extends State<SetupScreen> {
     return Expanded(
       child: Container(
         height: 4,
-        margin: EdgeInsets.symmetric(horizontal: 2),
+        margin: const EdgeInsets.symmetric(horizontal: 2),
         decoration: BoxDecoration(
           color: index <= _currentPage
               ? AppTheme.primaryColor
@@ -125,23 +127,23 @@ class _SetupScreenState extends State<SetupScreen> {
 
   Widget _buildWelcomePage() {
     return Padding(
-      padding: EdgeInsets.all(30),
+      padding: const EdgeInsets.all(30),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            padding: EdgeInsets.all(30),
+            padding: const EdgeInsets.all(30),
             decoration: BoxDecoration(
-              color: AppTheme.primaryColor.withOpacity(0.1),
+              color: AppTheme.primaryColor.withValues(alpha: 0.1),
               shape: BoxShape.circle,
             ),
-            child: Icon(
+            child: const Icon(
               Icons.smoke_free,
               size: 80,
               color: AppTheme.primaryColor,
             ),
           ),
-          SizedBox(height: 40),
+          const SizedBox(height: 40),
           Text(
             'Welcome to Your Quit Smoking Journey',
             style: Theme.of(context).textTheme.headlineSmall?.copyWith(
@@ -149,7 +151,7 @@ class _SetupScreenState extends State<SetupScreen> {
             ),
             textAlign: TextAlign.center,
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Text(
             'Let\'s set up the app together to help you successfully achieve your goal',
             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
@@ -157,9 +159,9 @@ class _SetupScreenState extends State<SetupScreen> {
             ),
             textAlign: TextAlign.center,
           ),
-          SizedBox(height: 40),
+          const SizedBox(height: 40),
           Container(
-            padding: EdgeInsets.all(20),
+            padding: const EdgeInsets.all(20),
             decoration: AppTheme.cardDecoration,
             child: Column(
               children: [
@@ -177,11 +179,11 @@ class _SetupScreenState extends State<SetupScreen> {
 
   Widget _buildFeatureItem(IconData icon, String text) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 8),
+      padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
         children: [
           Icon(icon, color: AppTheme.primaryColor, size: 24),
-          SizedBox(width: 12),
+          const SizedBox(width: 12),
           Expanded(
             child: Text(
               text,
@@ -195,12 +197,12 @@ class _SetupScreenState extends State<SetupScreen> {
 
   Widget _buildQuitDatePage() {
     return Padding(
-      padding: EdgeInsets.all(30),
+      padding: const EdgeInsets.all(30),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.calendar_today, size: 80, color: AppTheme.secondaryColor),
-          SizedBox(height: 30),
+          const Icon(Icons.calendar_today, size: 80, color: AppTheme.secondaryColor),
+          const SizedBox(height: 30),
           Text(
             'When did you start your quit journey?',
             style: Theme.of(context).textTheme.headlineSmall?.copyWith(
@@ -208,7 +210,7 @@ class _SetupScreenState extends State<SetupScreen> {
             ),
             textAlign: TextAlign.center,
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Text(
             'Select the date you decided to quit smoking',
             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
@@ -216,7 +218,7 @@ class _SetupScreenState extends State<SetupScreen> {
             ),
             textAlign: TextAlign.center,
           ),
-          SizedBox(height: 40),
+          const SizedBox(height: 40),
 
           Container(
             decoration: AppTheme.cardDecoration,
@@ -229,7 +231,7 @@ class _SetupScreenState extends State<SetupScreen> {
                 ),
                 _buildDateOption(
                   'Yesterday',
-                  DateTime.now().subtract(Duration(days: 1)),
+                  DateTime.now().subtract(const Duration(days: 1)),
                   Icons.history,
                 ),
                 _buildDateOption(
@@ -244,21 +246,21 @@ class _SetupScreenState extends State<SetupScreen> {
 
           if (_quitDate != null && !_isToday(_quitDate!) && !_isYesterday(_quitDate!))
             Container(
-              margin: EdgeInsets.only(top: 20),
-              padding: EdgeInsets.all(15),
+              margin: const EdgeInsets.only(top: 20),
+              padding: const EdgeInsets.all(15),
               decoration: BoxDecoration(
-                color: AppTheme.primaryColor.withOpacity(0.1),
+                color: AppTheme.primaryColor.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: AppTheme.primaryColor.withOpacity(0.3)),
+                border: Border.all(color: AppTheme.primaryColor.withValues(alpha: 0.3)),
               ),
               child: Row(
                 children: [
-                  Icon(Icons.check_circle, color: AppTheme.primaryColor),
-                  SizedBox(width: 12),
+                  const Icon(Icons.check_circle, color: AppTheme.primaryColor),
+                  const SizedBox(width: 12),
                   Expanded(
                     child: Text(
                       'Selected Date: ${DateFormat('MM/dd/yyyy').format(_quitDate!)}',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         color: AppTheme.primaryColor,
                       ),
@@ -286,9 +288,9 @@ class _SetupScreenState extends State<SetupScreen> {
         }
       },
       child: Container(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: isSelected ? AppTheme.primaryColor.withOpacity(0.1) : null,
+          color: isSelected ? AppTheme.primaryColor.withValues(alpha: 0.1) : null,
           border: Border.all(
             color: isSelected ? AppTheme.primaryColor : Colors.transparent,
             width: 2,
@@ -301,7 +303,7 @@ class _SetupScreenState extends State<SetupScreen> {
               icon,
               color: isSelected ? AppTheme.primaryColor : AppTheme.textSecondaryColor,
             ),
-            SizedBox(width: 16),
+            const SizedBox(width: 16),
             Expanded(
               child: Text(
                 title,
@@ -312,7 +314,7 @@ class _SetupScreenState extends State<SetupScreen> {
               ),
             ),
             if (isSelected)
-              Icon(Icons.check, color: AppTheme.primaryColor),
+              const Icon(Icons.check, color: AppTheme.primaryColor),
           ],
         ),
       ),
@@ -321,11 +323,11 @@ class _SetupScreenState extends State<SetupScreen> {
 
   Widget _buildSmokingHabitsPage() {
     return Padding(
-      padding: EdgeInsets.all(30),
+      padding: const EdgeInsets.all(30),
       child: Column(
         children: [
-          Icon(Icons.info_outline, size: 80, color: AppTheme.warningColor),
-          SizedBox(height: 30),
+          const Icon(Icons.info_outline, size: 80, color: AppTheme.warningColor),
+          const SizedBox(height: 30),
           Text(
             'Tell us about your previous habits',
             style: Theme.of(context).textTheme.headlineSmall?.copyWith(
@@ -333,7 +335,7 @@ class _SetupScreenState extends State<SetupScreen> {
             ),
             textAlign: TextAlign.center,
           ),
-          SizedBox(height: 40),
+          const SizedBox(height: 40),
 
           Expanded(
             child: SingleChildScrollView(
@@ -341,7 +343,7 @@ class _SetupScreenState extends State<SetupScreen> {
                 children: [
                   // عدد السجائر يومياً
                   Container(
-                    padding: EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(20),
                     decoration: AppTheme.cardDecoration,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -352,7 +354,7 @@ class _SetupScreenState extends State<SetupScreen> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         Slider(
                           value: _dailyCigarettes.toDouble(),
                           min: 1,
@@ -379,11 +381,11 @@ class _SetupScreenState extends State<SetupScreen> {
                     ),
                   ),
 
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
 
                   // سعر السيجارة
                   Container(
-                    padding: EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(20),
                     decoration: AppTheme.cardDecoration,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -394,11 +396,11 @@ class _SetupScreenState extends State<SetupScreen> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(height: 15),
+                        const SizedBox(height: 15),
                         TextFormField(
                           initialValue: _cigarettePrice.toString(),
-                          keyboardType: TextInputType.numberWithOptions(decimal: true),
-                          decoration: InputDecoration(
+                          keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                          decoration: const InputDecoration(
                             labelText: 'Price in EGP',
                             suffixText: 'EGP',
                             prefixIcon: Icon(Icons.monetization_on),
@@ -414,24 +416,24 @@ class _SetupScreenState extends State<SetupScreen> {
                     ),
                   ),
 
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
 
                   // حساب التوفير المتوقع
                   Container(
-                    padding: EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
-                          AppTheme.successColor.withOpacity(0.1),
-                          AppTheme.successColor.withOpacity(0.2),
+                          AppTheme.successColor.withValues(alpha: 0.1),
+                          AppTheme.successColor.withValues(alpha: 0.2),
                         ],
                       ),
                       borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: AppTheme.successColor.withOpacity(0.3)),
+                      border: Border.all(color: AppTheme.successColor.withValues(alpha: 0.3)),
                     ),
                     child: Column(
                       children: [
-                        Row(
+                        const Row(
                           children: [
                             Icon(Icons.savings, color: AppTheme.successColor),
                             SizedBox(width: 8),
@@ -444,7 +446,7 @@ class _SetupScreenState extends State<SetupScreen> {
                             ),
                           ],
                         ),
-                        SizedBox(height: 15),
+                        const SizedBox(height: 15),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -458,7 +460,7 @@ class _SetupScreenState extends State<SetupScreen> {
                             ),
                           ],
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         _buildSavingsItem(
                           'Yearly',
                           '${(_dailyCigarettes * _cigarettePrice * 365).toStringAsFixed(2)} EGP',
@@ -500,11 +502,11 @@ class _SetupScreenState extends State<SetupScreen> {
 
   Widget _buildMotivationPage() {
     return Padding(
-      padding: EdgeInsets.all(30),
+      padding: const EdgeInsets.all(30),
       child: Column(
         children: [
-          Icon(Icons.favorite, size: 80, color: AppTheme.errorColor),
-          SizedBox(height: 30),
+          const Icon(Icons.favorite, size: 80, color: AppTheme.errorColor),
+          const SizedBox(height: 30),
           Text(
             'What motivates you to quit?',
             style: Theme.of(context).textTheme.headlineSmall?.copyWith(
@@ -512,7 +514,7 @@ class _SetupScreenState extends State<SetupScreen> {
             ),
             textAlign: TextAlign.center,
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Text(
             'Select the reasons that motivate you (you can choose multiple)',
             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
@@ -520,7 +522,7 @@ class _SetupScreenState extends State<SetupScreen> {
             ),
             textAlign: TextAlign.center,
           ),
-          SizedBox(height: 30),
+          const SizedBox(height: 30),
 
           Expanded(
             child: SingleChildScrollView(
@@ -528,20 +530,20 @@ class _SetupScreenState extends State<SetupScreen> {
                 children: [
                   ...(_availableMotivations.map((motivation) => _buildMotivationItem(motivation))),
 
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
 
                   // إضافة سبب مخصص
                   Container(
-                    padding: EdgeInsets.all(15),
+                    padding: const EdgeInsets.all(15),
                     decoration: BoxDecoration(
-                      color: AppTheme.secondaryColor.withOpacity(0.1),
+                      color: AppTheme.secondaryColor.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: AppTheme.secondaryColor.withOpacity(0.3)),
+                      border: Border.all(color: AppTheme.secondaryColor.withValues(alpha: 0.3)),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
+                        const Row(
                           children: [
                             Icon(Icons.edit, color: AppTheme.secondaryColor),
                             SizedBox(width: 8),
@@ -554,9 +556,9 @@ class _SetupScreenState extends State<SetupScreen> {
                             ),
                           ],
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         TextFormField(
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: 'Example: I want to be a role model for my children',
                             border: OutlineInputBorder(),
                             isDense: true,
@@ -580,7 +582,7 @@ class _SetupScreenState extends State<SetupScreen> {
     final isSelected = _selectedMotivations.contains(motivation);
 
     return Container(
-      margin: EdgeInsets.only(bottom: 10),
+      margin: const EdgeInsets.only(bottom: 10),
       child: InkWell(
         onTap: () {
           setState(() {
@@ -592,16 +594,16 @@ class _SetupScreenState extends State<SetupScreen> {
           });
         },
         child: Container(
-          padding: EdgeInsets.all(15),
+          padding: const EdgeInsets.all(15),
           decoration: BoxDecoration(
             color: isSelected
-                ? AppTheme.primaryColor.withOpacity(0.1)
+                ? AppTheme.primaryColor.withValues(alpha: 0.1)
                 : AppTheme.cardColor,
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
               color: isSelected
                   ? AppTheme.primaryColor
-                  : Colors.grey.withOpacity(0.3),
+                  : Colors.grey.withValues(alpha: 0.3),
               width: isSelected ? 2 : 1,
             ),
           ),
@@ -611,7 +613,7 @@ class _SetupScreenState extends State<SetupScreen> {
                 isSelected ? Icons.check_box : Icons.check_box_outline_blank,
                 color: isSelected ? AppTheme.primaryColor : AppTheme.textSecondaryColor,
               ),
-              SizedBox(width: 15),
+              const SizedBox(width: 15),
               Expanded(
                 child: Text(
                   motivation,
@@ -638,11 +640,11 @@ class _SetupScreenState extends State<SetupScreen> {
     final moneySaved = daysSinceQuit * _dailyCigarettes * _cigarettePrice;
 
     return Padding(
-      padding: EdgeInsets.all(30),
+      padding: const EdgeInsets.all(30),
       child: Column(
         children: [
-          Icon(Icons.celebration, size: 80, color: Colors.amber),
-          SizedBox(height: 30),
+          const Icon(Icons.celebration, size: 80, color: Colors.amber),
+          const SizedBox(height: 30),
           Text(
             'Your Journey Summary',
             style: Theme.of(context).textTheme.headlineSmall?.copyWith(
@@ -650,7 +652,7 @@ class _SetupScreenState extends State<SetupScreen> {
             ),
             textAlign: TextAlign.center,
           ),
-          SizedBox(height: 30),
+          const SizedBox(height: 30),
 
           Expanded(
             child: SingleChildScrollView(
@@ -659,11 +661,11 @@ class _SetupScreenState extends State<SetupScreen> {
                   // إحصائيات سريعة
                   if (_quitDate != null) ...[
                     Container(
-                      padding: EdgeInsets.all(20),
+                      padding: const EdgeInsets.all(20),
                       decoration: AppTheme.primaryGradientDecoration,
                       child: Column(
                         children: [
-                          Text(
+                          const Text(
                             'Your Achievements So Far',
                             style: TextStyle(
                               color: Colors.white,
@@ -671,7 +673,7 @@ class _SetupScreenState extends State<SetupScreen> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          SizedBox(height: 20),
+                          const SizedBox(height: 20),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
@@ -686,7 +688,7 @@ class _SetupScreenState extends State<SetupScreen> {
                                 Icons.smoke_free,
                               ),
                               _buildQuickStat(
-                                '${moneySaved.toStringAsFixed(0)}',
+                                moneySaved.toStringAsFixed(0),
                                 'EGP\nsaved',
                                 Icons.monetization_on,
                               ),
@@ -695,22 +697,22 @@ class _SetupScreenState extends State<SetupScreen> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                   ],
 
                   // الدوافع المختارة
                   if (_selectedMotivations.isNotEmpty) ...[
                     Container(
-                      padding: EdgeInsets.all(15),
+                      padding: const EdgeInsets.all(15),
                       decoration: BoxDecoration(
-                        color: AppTheme.secondaryColor.withOpacity(0.1),
+                        color: AppTheme.secondaryColor.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: AppTheme.secondaryColor.withOpacity(0.3)),
+                        border: Border.all(color: AppTheme.secondaryColor.withValues(alpha: 0.3)),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Row(
+                          const Row(
                             children: [
                               Icon(Icons.star, color: AppTheme.secondaryColor),
                               SizedBox(width: 8),
@@ -724,13 +726,13 @@ class _SetupScreenState extends State<SetupScreen> {
                               ),
                             ],
                           ),
-                          SizedBox(height: 15),
+                          const SizedBox(height: 15),
                           ..._selectedMotivations.map((motivation) => Padding(
-                            padding: EdgeInsets.only(bottom: 8),
+                            padding: const EdgeInsets.only(bottom: 8),
                             child: Row(
                               children: [
-                                Icon(Icons.check, color: AppTheme.primaryColor, size: 16),
-                                SizedBox(width: 8),
+                                const Icon(Icons.check, color: AppTheme.primaryColor, size: 16),
+                                const SizedBox(width: 8),
                                 Expanded(child: Text(motivation)),
                               ],
                             ),
@@ -738,22 +740,22 @@ class _SetupScreenState extends State<SetupScreen> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                   ],
 
                   // السبب الشخصي
                   if (_personalReason.isNotEmpty) ...[
                     Container(
-                      padding: EdgeInsets.all(15),
+                      padding: const EdgeInsets.all(15),
                       decoration: BoxDecoration(
-                        color: Colors.purple.withOpacity(0.1),
+                        color: Colors.purple.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: Colors.purple.withOpacity(0.3)),
+                        border: Border.all(color: Colors.purple.withValues(alpha: 0.3)),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Row(
+                          const Row(
                             children: [
                               Icon(Icons.favorite, color: Colors.purple),
                               SizedBox(width: 8),
@@ -767,10 +769,10 @@ class _SetupScreenState extends State<SetupScreen> {
                               ),
                             ],
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           Text(
                             '"$_personalReason"',
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontStyle: FontStyle.italic,
                               fontSize: 16,
                             ),
@@ -778,21 +780,21 @@ class _SetupScreenState extends State<SetupScreen> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                   ],
 
                   // رسالة تحفيزية
                   Container(
-                    padding: EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
-                      color: Colors.amber.withOpacity(0.1),
+                      color: Colors.amber.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: Colors.amber.withOpacity(0.3)),
+                      border: Border.all(color: Colors.amber.withValues(alpha: 0.3)),
                     ),
                     child: Column(
                       children: [
-                        Icon(Icons.emoji_events, color: Colors.amber, size: 40),
-                        SizedBox(height: 15),
+                        const Icon(Icons.emoji_events, color: Colors.amber, size: 40),
+                        const SizedBox(height: 15),
                         Text(
                           'You\'re on the right track!',
                           style: TextStyle(
@@ -801,8 +803,8 @@ class _SetupScreenState extends State<SetupScreen> {
                             color: Colors.amber[800],
                           ),
                         ),
-                        SizedBox(height: 10),
-                        Text(
+                        const SizedBox(height: 10),
+                        const Text(
                           'Every smoke-free day is a new victory. There will be challenges, but you are stronger than them.',
                           textAlign: TextAlign.center,
                           style: TextStyle(
@@ -826,19 +828,19 @@ class _SetupScreenState extends State<SetupScreen> {
     return Column(
       children: [
         Icon(icon, color: Colors.white, size: 28),
-        SizedBox(height: 8),
+        const SizedBox(height: 8),
         Text(
           value,
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.white,
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
         ),
-        SizedBox(height: 4),
+        const SizedBox(height: 4),
         Text(
           label,
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.white70,
             fontSize: 11,
           ),
@@ -850,25 +852,25 @@ class _SetupScreenState extends State<SetupScreen> {
 
   Widget _buildNavigationButtons() {
     return Container(
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           if (_currentPage > 0)
             TextButton.icon(
               onPressed: _previousPage,
-              icon: Icon(Icons.arrow_back),
-              label: Text('Back'),
+              icon: const Icon(Icons.arrow_back),
+              label: const Text('Back'),
             )
           else
-            SizedBox(width: 100),
+            const SizedBox(width: 100),
 
           ElevatedButton.icon(
             onPressed: _currentPage == 4 ? _finishSetup : _nextPage,
             icon: Icon(_currentPage == 4 ? Icons.check : Icons.arrow_forward),
             label: Text(_currentPage == 4 ? 'Start Journey' : 'Next'),
             style: ElevatedButton.styleFrom(
-              padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
             ),
           ),
         ],
@@ -879,7 +881,7 @@ class _SetupScreenState extends State<SetupScreen> {
   void _nextPage() {
     if (_validateCurrentPage()) {
       _pageController.nextPage(
-        duration: Duration(milliseconds: 300),
+        duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
       );
     }
@@ -887,7 +889,7 @@ class _SetupScreenState extends State<SetupScreen> {
 
   void _previousPage() {
     _pageController.previousPage(
-      duration: Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 300),
       curve: Curves.easeInOut,
     );
   }
@@ -929,7 +931,7 @@ class _SetupScreenState extends State<SetupScreen> {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime.now().subtract(Duration(days: 365)),
+      firstDate: DateTime.now().subtract(const Duration(days: 365)),
       lastDate: DateTime.now(),
       helpText: 'Select quit date',
       cancelText: 'Cancel',
@@ -963,12 +965,12 @@ class _SetupScreenState extends State<SetupScreen> {
 
       // Navigate to home screen
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => HomeScreen()),
+        MaterialPageRoute(builder: (context) => const HomeScreen()),
       );
 
       // Show success message
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text('Welcome! You\'ve started your journey to a healthier life'),
           backgroundColor: AppTheme.successColor,
           duration: Duration(seconds: 3),
@@ -987,7 +989,7 @@ class _SetupScreenState extends State<SetupScreen> {
   }
 
   bool _isYesterday(DateTime date) {
-    final yesterday = DateTime.now().subtract(Duration(days: 1));
+    final yesterday = DateTime.now().subtract(const Duration(days: 1));
     return date.year == yesterday.year &&
         date.month == yesterday.month &&
         date.day == yesterday.day;

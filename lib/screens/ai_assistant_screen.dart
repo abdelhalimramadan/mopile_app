@@ -6,6 +6,8 @@ import '../services/storage_services.dart';
 import '../utils/app_theme.dart';
 
 class AIAssistantScreen extends StatefulWidget {
+  const AIAssistantScreen({super.key});
+
   @override
   _AIAssistantScreenState createState() => _AIAssistantScreenState();
 }
@@ -89,9 +91,9 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
     if (!_isInitialized) {
       return Scaffold(
         appBar: AppBar(
-          title: Text('AI Assistant'),
+          title: const Text('AI Assistant'),
         ),
-        body: Center(
+        body: const Center(
           child: CircularProgressIndicator(),
         ),
       );
@@ -99,7 +101,7 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Row(
+        title: const Row(
           children: [
             CircleAvatar(
               backgroundColor: Colors.white,
@@ -125,7 +127,7 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
           PopupMenuButton<String>(
             onSelected: _handleMenuAction,
             itemBuilder: (context) => [
-              PopupMenuItem(
+              const PopupMenuItem(
                 value: 'clear',
                 child: Row(
                   children: [
@@ -135,7 +137,7 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
                   ],
                 ),
               ),
-              PopupMenuItem(
+              const PopupMenuItem(
                 value: 'emergency',
                 child: Row(
                   children: [
@@ -164,22 +166,22 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
 
   Widget _buildProgressBanner() {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      margin: EdgeInsets.all(8),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      margin: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [AppTheme.primaryColor.withOpacity(0.1), AppTheme.primaryColor.withOpacity(0.2)],
+          colors: [AppTheme.primaryColor.withValues(alpha: 0.1), AppTheme.primaryColor.withValues(alpha: 0.2)],
         ),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Row(
         children: [
-          Icon(Icons.trending_up, color: AppTheme.primaryColor),
-          SizedBox(width: 8),
+          const Icon(Icons.trending_up, color: AppTheme.primaryColor),
+          const SizedBox(width: 8),
           Expanded(
             child: Text(
               '${_progressStats!.smokeFreeDays} days smoke-free • ${_progressStats!.cigarettesAvoided} cigarettes avoided',
-              style: TextStyle(
+              style: const TextStyle(
                 color: AppTheme.primaryColor,
                 fontWeight: FontWeight.w600,
               ),
@@ -193,30 +195,30 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
   Widget _buildEmptyState() {
     return Center(
       child: Padding(
-        padding: EdgeInsets.all(32),
+        padding: const EdgeInsets.all(32),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              padding: EdgeInsets.all(24),
+              padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
-                color: AppTheme.primaryColor.withOpacity(0.1),
+                color: AppTheme.primaryColor.withValues(alpha: 0.1),
                 shape: BoxShape.circle,
               ),
-              child: Icon(
+              child: const Icon(
                 Icons.smart_toy,
                 size: 64,
                 color: AppTheme.primaryColor,
               ),
             ),
-            SizedBox(height: 24),
+            const SizedBox(height: 24),
             Text(
               'Your AI Assistant is Here',
               style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 12),
+            const SizedBox(height: 12),
             Text(
               'Ask me anything about quitting smoking.\nI\'m here to support and guide you on your journey.',
               textAlign: TextAlign.center,
@@ -233,7 +235,7 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
   Widget _buildMessagesList() {
     return ListView.builder(
       controller: _scrollController,
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       itemCount: _messages.length + (_isLoading ? 1 : 0),
       itemBuilder: (context, index) {
         if (index == _messages.length && _isLoading) {
@@ -246,32 +248,32 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
 
   Widget _buildMessage(ChatMessage message) {
     return Container(
-      margin: EdgeInsets.only(bottom: 16),
+      margin: const EdgeInsets.only(bottom: 16),
       child: Row(
         mainAxisAlignment: message.isUser ? MainAxisAlignment.end : MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (!message.isUser) ...[
-            CircleAvatar(
+            const CircleAvatar(
               radius: 16,
               backgroundColor: AppTheme.primaryColor,
               child: Icon(Icons.smart_toy, color: Colors.white, size: 16),
             ),
-            SizedBox(width: 8),
+            const SizedBox(width: 8),
           ],
           Flexible(
             child: Container(
               constraints: BoxConstraints(
                 maxWidth: MediaQuery.of(context).size.width * 0.75,
               ),
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               decoration: BoxDecoration(
                 color: message.isUser
                     ? AppTheme.primaryColor
                     : Colors.grey[100],
                 borderRadius: BorderRadius.circular(18).copyWith(
-                  bottomLeft: message.isUser ? Radius.circular(18) : Radius.circular(4),
-                  bottomRight: message.isUser ? Radius.circular(4) : Radius.circular(18),
+                  bottomLeft: message.isUser ? const Radius.circular(18) : const Radius.circular(4),
+                  bottomRight: message.isUser ? const Radius.circular(4) : const Radius.circular(18),
                 ),
               ),
               child: Column(
@@ -284,12 +286,12 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
                       fontSize: 16,
                     ),
                   ),
-                  SizedBox(height: 4),
+                  const SizedBox(height: 4),
                   Text(
                     _formatTime(message.timestamp),
                     style: TextStyle(
                       color: message.isUser
-                          ? Colors.white.withOpacity(0.7)
+                          ? Colors.white.withValues(alpha: 0.7)
                           : AppTheme.textSecondaryColor,
                       fontSize: 12,
                     ),
@@ -299,8 +301,8 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
             ),
           ),
           if (message.isUser) ...[
-            SizedBox(width: 8),
-            CircleAvatar(
+            const SizedBox(width: 8),
+            const CircleAvatar(
               radius: 16,
               backgroundColor: AppTheme.secondaryColor,
               child: Icon(Icons.person, color: Colors.white, size: 16),
@@ -313,17 +315,17 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
 
   Widget _buildTypingIndicator() {
     return Container(
-      margin: EdgeInsets.only(bottom: 16),
+      margin: const EdgeInsets.only(bottom: 16),
       child: Row(
         children: [
-          CircleAvatar(
+          const CircleAvatar(
             radius: 16,
             backgroundColor: AppTheme.primaryColor,
             child: Icon(Icons.smart_toy, color: Colors.white, size: 16),
           ),
-          SizedBox(width: 8),
+          const SizedBox(width: 8),
           Container(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
               color: Colors.grey[100],
               borderRadius: BorderRadius.circular(18),
@@ -332,12 +334,12 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 _buildDot(0),
-                SizedBox(width: 4),
+                const SizedBox(width: 4),
                 _buildDot(1),
-                SizedBox(width: 4),
+                const SizedBox(width: 4),
                 _buildDot(2),
-                SizedBox(width: 8),
-                Text(
+                const SizedBox(width: 8),
+                const Text(
                   'Typing...',
                   style: TextStyle(
                     color: AppTheme.textSecondaryColor,
@@ -354,12 +356,12 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
 
   Widget _buildDot(int index) {
     return AnimatedContainer(
-      duration: Duration(milliseconds: 600),
+      duration: const Duration(milliseconds: 600),
       curve: Curves.easeInOut,
       width: 8,
       height: 8,
       decoration: BoxDecoration(
-        color: AppTheme.primaryColor.withOpacity(0.6),
+        color: AppTheme.primaryColor.withValues(alpha: 0.6),
         shape: BoxShape.circle,
       ),
     );
@@ -367,18 +369,18 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
 
   Widget _buildQuickSuggestions() {
     return Container(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          const Text(
             'Quick suggestions:',
             style: TextStyle(
               fontWeight: FontWeight.bold,
               color: AppTheme.textSecondaryColor,
             ),
           ),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           Wrap(
             spacing: 8,
             runSpacing: 8,
@@ -386,9 +388,9 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
               return ActionChip(
                 label: Text(suggestion),
                 onPressed: () => _sendMessage(suggestion),
-                backgroundColor: AppTheme.primaryColor.withOpacity(0.1),
-                labelStyle: TextStyle(color: AppTheme.primaryColor),
-                side: BorderSide(color: AppTheme.primaryColor.withOpacity(0.3)),
+                backgroundColor: AppTheme.primaryColor.withValues(alpha: 0.1),
+                labelStyle: const TextStyle(color: AppTheme.primaryColor),
+                side: BorderSide(color: AppTheme.primaryColor.withValues(alpha: 0.3)),
               );
             }).toList(),
           ),
@@ -399,14 +401,14 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
 
   Widget _buildMessageInput() {
     return Container(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.2),
+            color: Colors.grey.withValues(alpha: 0.2),
             blurRadius: 4,
-            offset: Offset(0, -2),
+            offset: const Offset(0, -2),
           ),
         ],
       ),
@@ -425,7 +427,7 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
                   maxLines: null,
                   textInputAction: TextInputAction.send,
                   onSubmitted: (_) => _sendMessage(),
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     hintText: 'Type your message here...',
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
@@ -435,7 +437,7 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
                 ),
               ),
             ),
-            SizedBox(width: 8),
+            const SizedBox(width: 8),
             Container(
               decoration: BoxDecoration(
                 color: _isLoading ? Colors.grey : AppTheme.primaryColor,
@@ -529,7 +531,7 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
       if (_scrollController.hasClients) {
         _scrollController.animateTo(
           _scrollController.position.maxScrollExtent,
-          duration: Duration(milliseconds: 300),
+          duration: const Duration(milliseconds: 300),
           curve: Curves.easeOut,
         );
       }
@@ -567,27 +569,38 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
   }
 
   void _showClearDialog() {
+    // Store context in a local variable before any async operations
+
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Clear Chat'),
-        content: Text('Do you want to delete all messages? This action cannot be undone.'),
+        title: const Text('Clear Chat'),
+        content: const Text('Do you want to delete all messages? This action cannot be undone.'),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text('Cancel'),
+            child: const Text('Cancel'),
           ),
           ElevatedButton(
             onPressed: () async {
-              await StorageService.clearChatMessages();
-              setState(() {
-                _messages.clear();
-              });
+              // First pop the dialog
               Navigator.pop(context);
-              await _addWelcomeMessage();
+              
+              // Then perform async operations
+              await StorageService.clearChatMessages();
+              
+              // Use Future.microtask to ensure the state is still valid
+              if (mounted) {
+                setState(() {
+                  _messages.clear();
+                });
+                
+                // Add welcome message after state update
+                await _addWelcomeMessage();
+              }
             },
             style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-            child: Text('Delete'),
+            child: const Text('Delete'),
           ),
         ],
       ),
@@ -595,7 +608,7 @@ class _AIAssistantScreenState extends State<AIAssistantScreen> {
   }
 
   void _requestEmergencyHelp() async {
-    final emergencyMessage = 'I need emergency help! I\'m having a strong urge to smoke right now.';
+    const emergencyMessage = 'I need emergency help! I\'m having a strong urge to smoke right now.';
     await _sendMessage(emergencyMessage);
   }
 

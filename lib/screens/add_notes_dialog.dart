@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/models.dart';
 
 class AddNoteDialog extends StatefulWidget {
-  const AddNoteDialog({Key? key}) : super(key: key);
+  const AddNoteDialog({super.key});
 
   @override
   _AddNoteDialogState createState() => _AddNoteDialogState();
@@ -119,7 +119,7 @@ class _AddNoteDialogState extends State<AddNoteDialog> {
                         margin: const EdgeInsets.only(right: 8),
                         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                         decoration: BoxDecoration(
-                          color: isSelected ? Theme.of(context).primaryColor.withOpacity(0.1) : null,
+                          color: isSelected ? Theme.of(context).primaryColor: null,
                           borderRadius: BorderRadius.circular(20),
                           border: Border.all(
                             color: isSelected ? Theme.of(context).primaryColor : Colors.grey.shade300,

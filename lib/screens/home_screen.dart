@@ -229,10 +229,21 @@ class _HomeScreenState extends State<HomeScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        _buildQuickActionButton(Icons.add_alert, 'Reminder', () {}),
-                        _buildQuickActionButton(Icons.medication, 'Medication', () {}),
-                        _buildQuickActionButton(Icons.people, 'Community', () {}),
-                        _buildQuickActionButton(Icons.help, 'Help', () {}),
+                        _buildQuickActionButton(Icons.add_alert, 'Reminder', _showNotificationSettings),
+                        _buildQuickActionButton(Icons.medication, 'Medication', () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Medication tracker coming soon')),
+                          );
+                        }),
+                        _buildQuickActionButton(Icons.people, 'Community', () {
+                          setState(() => _currentIndex = 1); // Go to AI Assistant as a community/chat proxy
+                        }),
+                        _buildQuickActionButton(Icons.help, 'Help', () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const EmergencyScreen()),
+                          );
+                        }),
                       ],
                     ),
                   ],
@@ -279,19 +290,23 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildQuickActionButton(IconData icon, String label, VoidCallback onPressed) {
-    return Column(
-      children: [
-        Container(
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            color: Colors.green.shade100,
-            shape: BoxShape.circle,
+    return InkWell(
+      onTap: onPressed,
+      borderRadius: BorderRadius.circular(12),
+      child: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: Colors.green.shade100,
+              shape: BoxShape.circle,
+            ),
+            child: Icon(icon, color: const Color(0xFF2E7D32)),
           ),
-          child: Icon(icon, color: const Color(0xFF2E7D32)),
-        ),
-        const SizedBox(height: 8),
-        Text(label, style: const TextStyle(fontSize: 12)),
-      ],
+          const SizedBox(height: 8),
+          Text(label, style: const TextStyle(fontSize: 12)),
+        ],
+      ),
     );
   }
 

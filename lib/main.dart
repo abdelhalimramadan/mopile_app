@@ -9,7 +9,7 @@ void main() async {
 
   // Initialize services
   await NotificationService.initialize();
-   StorageService.initialize();
+  await StorageService.initialize();
 
-  runApp( SmokingQuitApp());
+  runApp(SmokingQuitApp());
 }

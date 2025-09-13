@@ -25,25 +25,13 @@ class _HomeScreenState extends State<HomeScreen> {
   String _dailyTip = '';
   bool _isLoading = true;
 
-  final List<Widget> _screens = [];
-
   @override
   void initState() {
     super.initState();
-    _initializeScreens();
     _loadUserData();
     _startUpdateTimer();
     _loadDailyTip();
     _checkMilestones();
-  }
-
-  void _initializeScreens() {
-    _screens.addAll([
-      _buildDashboard(),
-      const AIAssistantScreen(),
-      const SelfNotesScreen(),
-      const ProgressScreen(),
-    ]);
   }
 
   Future<void> _loadUserData() async {
@@ -135,7 +123,12 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: IndexedStack(
         index: _currentIndex,
-        children: _screens,
+        children: [
+          _buildDashboard(),
+          const AIAssistantScreen(),
+          const SelfNotesScreen(),
+          const ProgressScreen(),
+        ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
